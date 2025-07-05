@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NovaMind AI</title>
+</head>
+<body>
+  <h2>Ask NovaMind</h2>
+  <form id="chatForm">
+    <input type="text" id="userInput" required />
+    <button type="submit">Ask</button>
+  </form>
+  <pre id="response"></pre>
+  <script>
+    document.getElementById("chatForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const input = document.getElementById("userInput").value;
+      const res = await fetch("/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: input })
+      });
+      const data = await res.json();
+      document.getElementById("response").textContent = data.reply;
+    };
+  </script>
+</body>
+</html>
