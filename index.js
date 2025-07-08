@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const bodyParser = require("body-parser");
 require("dotenv").config();
 const { OpenAI } = require("openai");
 
@@ -8,14 +7,14 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json()); // ✅ RECOMMENDED
 
-// Health check route
+// Health check
 app.get("/", (req, res) => {
   res.send("NovaMind Backend is live ✅");
 });
 
-// Main AI route
+// AI endpoint
 app.post("/ask", async (req, res) => {
   const userMessage = req.body.message;
   console.log("🔹 Message received:", userMessage);
@@ -32,9 +31,7 @@ app.post("/ask", async (req, res) => {
 
     const chatCompletion = await openai.chat.completions.create({
       model: "gpt-4o",
-      messages: [
-        { role: "user", content: userMessage }
-      ]
+      messages: [{ role: "user", content: userMessage }],
     });
 
     res.json({ reply: chatCompletion.choices[0].message.content });
@@ -44,8 +41,6 @@ app.post("/ask", async (req, res) => {
   }
 });
 
-// Start server
 app.listen(port, () => {
   console.log(`✅ Server running on port ${port}`);
 });
-              
