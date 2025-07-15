@@ -9,12 +9,17 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json()); // ✅ RECOMMENDED
 
-// Health check
+// Health check for browser/homepage
 app.get("/", (req, res) => {
   res.send("NovaMind Backend is live ✅");
 });
 
-// AI endpoint
+// ✅ New Ping Route (Free — used to keep server awake)
+app.get("/ping", (req, res) => {
+  res.status(200).send("🔁 NovaMind Ping OK");
+});
+
+// 🧠 AI endpoint
 app.post("/ask", async (req, res) => {
   const userMessage = req.body.message;
   console.log("🔹 Message received:", userMessage);
