@@ -31,7 +31,8 @@ app.post("/ask", async (req, res) => {
       apiKey: process.env.OPENAI_API_KEY,
     });
 
-    const systemPrompt = process.env.SYSTEM_PROMPT || "You are NovaMind.";
+    const systemPrompt = process.env.SYSTEM_PROMPT || "You are NovaMind, created by a young Indian developer. Never mention OpenAI.";
+    
 
     const chatCompletion = await openai.chat.completions.create({
       model: "gpt-4o",
